@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GameService {
+
     @Autowired
     GameRepository repository;
 
@@ -21,4 +22,8 @@ public class GameService {
         return true;
     }
 
+    public void save(Game game) {
+        repository.save(game);
+    }
+    
 }

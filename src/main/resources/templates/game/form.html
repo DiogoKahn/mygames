@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>My Games</title>
+</head>
+
+<body class="grey lighten-2">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">My Games</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="active"><a href="/game">pendentes</a></li>
+                <li><a href="#">finalizados</a></li>
+                <li><a href="#">usuários</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <h2>Cadastrar Game</h2>
+
+        <div class="card">
+            <form th:action="${'/game'}" method="post" th:object="${game}">
+                <div class="card-content">
+                    <div class="input-field">
+                        <input type="text" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? invalid">
+                        <label for="name">Nome</label>
+                        <span class="helper-text red-text" th:errors="*{name}"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <textarea class="materialize-textarea" th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? invalid"></textarea>
+                        <label for="description">Descrição</label>
+                        <span class="helper-text red-text" th:errors="*{description}"></span>
+                    </div>
+
+                    <label for="score">Pontos</label>
+                    <p class="range-field">
+                        <input type="range" min="1" max="10" th:field="*{score}" />
+                    </p>
+                    <span class="helper-text red-text" th:errors="*{score}"></span>
+
+                </div>
+                <div class="card-action right-align">
+                    <a href="/game">cancelar</a>
+                    <button class="btn">cadastrar</button>
+                </div>
+            </form>
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

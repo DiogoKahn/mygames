@@ -15,7 +15,7 @@
             <a href="#" class="brand-logo">My Games</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li class="active"><a href="/game">pendentes</a></li>
-                <li><a href="#">concluídas</a></li>
+                <li><a href="#">finalizados</a></li>
                 <li><a href="#">usuários</a></li>
             </ul>
         </div>
@@ -25,10 +25,10 @@
         <div class="card-panel teal" th:if="${success}" th:text="${success}"></div>
         <div class="card-panel red white-text" th:if="${error}" th:text="${error}"></div>
 
-        <h2>Games pendentes</h2>
+        <h2>Games não Finalizados</h2>
 
         <div class="row">
-            <div class="col s12 m6 l4" th:each="game : ${game}" >
+            <div class="col s12 m6 l4" th:each="game : ${game}">
                 <div class="card">
                     <div class="card-content">
                         <div class="progress">
@@ -47,8 +47,14 @@
             </div>
         </div>
 
-        
+
     </main>
+
+    <div class="fixed-action-btn">
+        <a href="/game/new" class="btn-floating btn-large red">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
 
 
 </body>
