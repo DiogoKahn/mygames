@@ -1,6 +1,10 @@
 package br.com.fiap.mygames.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,18 +23,23 @@ public class GameController {
     @Autowired
     GameService service;
 
+    @Autowired
+    MessageSource message;
+
     @GetMapping
-    public String index(Model model){
-        model.addAttribute("game", service.findAll());
+    public String index(Model model, @AuthenticationPrincipal OAuth2User user){
+        model.addAttribute("username", user.getAttribute("name"));
+        model.addAttribute("avatar_url", user.getAttribute("avatar_url"));
+        model.addAttribute("games", service.findAll());
         return "game/index";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirect){
         if(service.delete(id)){
-            redirect.addFlashAttribute("success", "Game apagado com sucesso");
+            redirect.addFlashAttribute("success", getMessage("game.delete.success") );
         }else{
-            redirect.addFlashAttribute("error", "Game não foi encontrada");
+            redirect.addFlashAttribute("error", getMessage("game.notfound"));
         }
         return "redirect:/game";
     }
@@ -44,8 +53,12 @@ public class GameController {
     public String create(@Valid Game game, BindingResult result, RedirectAttributes redirect){
         if (result.hasErrors()) return "game/form";
         service.save(game);
-        redirect.addFlashAttribute("success", "Tarefa cadastrada com sucesso");
+        redirect.addFlashAttribute("success", getMessage("game.create.success"));
         return "redirect:/game";
+    }
+
+    private String getMessage(String code){
+        return message.getMessage(code, null, LocaleContextHolder.getLocale());
     }
     
 }

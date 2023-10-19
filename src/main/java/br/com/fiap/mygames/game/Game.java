@@ -21,7 +21,7 @@ public class Game {
     @NotBlank
     String name;
 
-    @Size(max = 1000)
+    @Size(min = 10, message = "{game.description.size}")
     String description;
 
     @Positive
